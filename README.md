@@ -29,12 +29,12 @@ psql -U postgres -d store_rating -f backend/schema.sql
 
 ### 2. Configure Backend
 
-Edit `backend/.env` to match your PostgreSQL credentials:
+Create a `backend/.env` file with your PostgreSQL credentials:
 
 ```env
 PORT=5000
-DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/store_rating
-JWT_SECRET=super_secret_jwt_key_change_me_in_production
+DATABASE_URL=postgresql://<USERNAME>:<PASSWORD>@localhost:5432/store_rating
+JWT_SECRET=<YOUR_SUPER_SECRET_JWT_KEY>
 JWT_EXPIRES_IN=7d
 ```
 
@@ -42,7 +42,7 @@ JWT_EXPIRES_IN=7d
 
 ```bash
 cd backend
-npm install    # already done if you followed setup
+npm install
 npm run dev    # starts on http://localhost:5000
 ```
 
@@ -56,18 +56,32 @@ npm run dev    # starts on http://localhost:5173
 
 ---
 
+## Deployment (Production)
+
+This repository is pre-configured for platforms like Render or Heroku:
+1. Connect your GitHub repository.
+2. The root `package.json` contains global `install`, `build`, and `start` scripts.
+3. Make sure to set your environment variables:
+   - `NODE_ENV=production`
+   - `DATABASE_URL`
+   - `JWT_SECRET`
+
+When `NODE_ENV=production`, the Express backend automatically serves the built React frontend on the same port!
+
+---
+
 ## Seed Your First Admin
 
-Run this in psql or a DB tool:
+Run this in your database tool to create an admin account manually (replace placeholders):
 
 ```sql
--- Password: Admin@123
+-- Password: Password@123
 INSERT INTO users (name, email, password_hash, address, role)
 VALUES (
-  'System Administrator Account',
-  'admin@ratemystore.com',
-  '$2a$10$YourBcryptHashHere',
-  '123 Admin Street, City, Country',
+  'System Administrator',
+  'admin@example.com',
+  '$2a$10$w0MIsL6aT5L2n3c/J61wWemT/eR3YwJ.8e7T/eQ9O2GjGkI/0zL4u',
+  'Admin Address',
   'admin'
 );
 ```
