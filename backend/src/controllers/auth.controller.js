@@ -60,12 +60,8 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  if (name.trim().length < 20) {
-    return res.status(400).json({ error: 'Name must be at least 20 characters' });
-  }
-
-  if (name.length > 60) {
-    return res.status(400).json({ error: 'Name cannot exceed 60 characters' });
+  if (name.trim().length > 20) {
+    return res.status(400).json({ error: 'Name cannot exceed 20 characters' });
   }
 
   if (address.length > 400) {

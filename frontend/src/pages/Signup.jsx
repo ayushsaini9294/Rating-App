@@ -38,8 +38,7 @@ const Signup = () => {
   const validate = () => {
     const e = {};
     if (!form.name)                   e.name = 'Name is required';
-    else if (form.name.trim().length < 20) e.name = 'Name must be at least 20 characters';
-    else if (form.name.length > 60)   e.name = 'Name cannot exceed 60 characters';
+    else if (form.name.trim().length > 20) e.name = 'Name cannot exceed 20 characters';
 
     if (!form.email)            e.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Invalid email format';
