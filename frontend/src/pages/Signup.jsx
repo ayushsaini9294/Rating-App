@@ -28,7 +28,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: '', email: '', password: '', confirmPassword: '', address: '',
+    name: '', email: '', password: '', confirmPassword: '', address: '', role: 'user',
   });
   const [errors, setErrors]   = useState({});
   const [loading, setLoading] = useState(false);
@@ -68,6 +68,7 @@ const Signup = () => {
         email: form.email.trim(),
         password: form.password,
         address: form.address.trim(),
+        role: form.role,
       });
       login(data.user, data.token);
       toast.success('Account created! Welcome aboard 🎉');
@@ -151,6 +152,20 @@ const Signup = () => {
               onChange={(e) => { setForm({ ...form, email: e.target.value }); setErrors({ ...errors, email: '' }); }}
             />
             {errors.email && <p className="form-error">⚠ {errors.email}</p>}
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="signup-role">Account Type</label>
+            <select
+              id="signup-role"
+              className="form-control"
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              style={{ padding: '0.75rem', backgroundColor: 'var(--bg-card)' }}
+            >
+              <option value="user">Regular User (Rate Stores)</option>
+              <option value="owner">Store Owner (Manage Stores)</option>
+            </select>
           </div>
 
           {passwordField('password', 'Password', '8–16 chars, uppercase + special char', showPw, () => setShowPw(v => !v))}

@@ -54,11 +54,14 @@ const login = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-  const { name, email, password, address } = req.body;
+  const { name, email, password, address, role } = req.body;
 
   if (!name || !email || !password || !address) {
     return res.status(400).json({ error: 'All fields are required' });
   }
+
+  // Restrict signup roles to 'user' or 'owner' (default is 'user')
+  const requestedRole = (role === 'owner') ? 'owner' : 'user';
 
   if (name.trim().length > 20) {
     return res.status(400).json({ error: 'Name cannot exceed 20 characters' });
@@ -87,9 +90,9 @@ const signup = async (req, res) => {
 
     const { rows } = await pool.query(
       `INSERT INTO users (name, email, password_hash, address, role)
-       VALUES ($1, $2, $3, $4, 'user')
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING id, name, email, role, address`,
-      [name.trim(), email.trim().toLowerCase(), hash, address.trim()]
+      [name.trim(), email.trim().toLowerCase(), hash, address.trim(), requestedRole]
     );
 
     const token = makeToken(rows[0]);
