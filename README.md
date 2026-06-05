@@ -72,21 +72,18 @@ When `NODE_ENV=production`, the Express backend automatically serves the built R
 
 ## Seed Your First Admin
 
-Run this in your database tool to create an admin account manually (replace placeholders):
+For security reasons, Admin accounts cannot be created from the public website. To create your first Admin account, run the following command in your terminal from inside the `backend` folder:
 
-```sql
--- Password: Password@123
-INSERT INTO users (name, email, password_hash, address, role)
-VALUES (
-  'System Administrator',
-  'admin@example.com',
-  '$2a$10$w0MIsL6aT5L2n3c/J61wWemT/eR3YwJ.8e7T/eQ9O2GjGkI/0zL4u',
-  'Admin Address',
-  'admin'
-);
+```bash
+npm run create-admin <your-email@example.com> <your-secure-password>
 ```
 
-> **Tip:** Use the `/signup` endpoint or React signup page to create a normal user, then use psql to promote them to admin.
+Example:
+```bash
+npm run create-admin boss@mysite.com SuperSecret123!
+```
+
+> **Tip:** You can also use the `/signup` endpoint or React signup page to create a normal user, then use your database tool to manually change their `role` to `'admin'`.
 
 ---
 
